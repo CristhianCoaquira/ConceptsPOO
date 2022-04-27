@@ -1,0 +1,18 @@
+﻿@model Shopping.Data.Entities.State
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Esta seguro de eliminar?</h3>
+<div>
+    <partial name="_StateDetails" />
+    
+    <form asp-action="DeleteState">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-outline-danger" />
+        <a asp-action="Details" asp-route-id="@Model?.CountryId" class="btn btn-outline-success">Regresar</a>
+    </form>
+</div>

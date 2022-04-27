@@ -252,5 +252,51 @@ namespace Shopping.Controllers
             }
             return View(state);
         }
+
+        public async Task<IActionResult> DetailsState(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            State state = await _context.States
+                .Include(x => x.Cities)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (state == null)
+            {
+                return NotFound();
+            }
+
+            return View(state);
+        }
+
+        public async Task<IActionResult> DeleteState(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            State state = await _context.States
+                .Include(x => x.Cities)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (state == null)
+            {
+                return NotFound();
+            }
+
+            return View(state);
+        }
+
+        [HttpPost, ActionName("DeleteState")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteStateConfirmed(int id)
+        {
+            State state = await _context.States.FindAsync(id);
+            _context.States.Remove(state);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = state.CountryId });
+        }
     }
 }
